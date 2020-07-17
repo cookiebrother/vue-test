@@ -1,5 +1,10 @@
 import Vue from 'vue'
 import 'element-ui/lib/theme-chalk/index.css'
+
+import { Form, FormItem } from 'element-ui'
+Vue.use(Form)
+Vue.use(FormItem)
+
 import { Button, ButtonGroup } from 'element-ui'
 Vue.use(Button)
 Vue.use(ButtonGroup)
@@ -7,33 +12,40 @@ Vue.use(ButtonGroup)
 import { Input } from 'element-ui'
 Vue.use(Input)
 
-import { Form, FormItem } from 'element-ui'
-Vue.use(Form)
-Vue.use(FormItem)
+import { Checkbox } from 'element-ui'
+Vue.use(Checkbox)
 
 import { Card } from 'element-ui'
 Vue.use(Card)
 
-import { Checkbox } from 'element-ui'
-Vue.use(Checkbox)
+import { Message, MessageBox } from 'element-ui'
+// import Loading from "element-ui/packages/loading";
+// import Notification from "element-ui/packages/notification";
+// 应该挂载到原型上
+// Vue.prototype.$loading = Loading.service;
+Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
+// Vue.prototype.$notify = Notification;
+Vue.prototype.$message = Message
 
-import { Icon } from 'element-ui'
-Vue.use(Icon)
+// Vue.use(Message)
+// Vue.use(MessageBox)
 
-import { Avatar } from 'element-ui'
-Vue.use(Avatar)
-
-import { Container, Aside, Header, Main, Footer } from 'element-ui'
+import { Container, Aside, Header, Main } from 'element-ui'
 Vue.use(Container)
 Vue.use(Aside)
 Vue.use(Header)
 Vue.use(Main)
-Vue.use(Footer)
 
-import { Dropdown, DropdownItem, DropdownMenu } from 'element-ui'
+import { Dropdown, DropdownMenu, DropdownItem } from 'element-ui'
 Vue.use(Dropdown)
-Vue.use(DropdownItem)
 Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
+
+import { Avatar } from 'element-ui'
+Vue.use(Avatar)
 
 import { Menu, MenuItem, MenuItemGroup, Submenu } from 'element-ui'
 Vue.use(Menu)
@@ -44,15 +56,6 @@ Vue.use(Submenu)
 import { Breadcrumb, BreadcrumbItem } from 'element-ui'
 Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
-
-import { Message, MessageBox,Loading,Notification } from 'element-ui'
-Vue.prototype.$message = Message
-Vue.prototype.$msgbox = MessageBox
-Vue.prototype.$loading = Loading.service
-Vue.prototype.$alert = MessageBox.alert
-Vue.prototype.$confirm = MessageBox.confirm
-Vue.prototype.$prompt = MessageBox.prompt
-Vue.prototype.$notify = Notification
 
 import { Cascader } from 'element-ui'
 Vue.use(Cascader)
@@ -69,3 +72,15 @@ Vue.use(Col)
 import { Table, TableColumn } from 'element-ui'
 Vue.use(Table)
 Vue.use(TableColumn)
+
+import { Dialog } from 'element-ui'
+Vue.use(Dialog)
+
+import { Switch } from 'element-ui'
+Vue.use(Switch)
+
+import { Image } from 'element-ui'
+Vue.use(Image)
+
+import { Pagination } from 'element-ui'
+Vue.use(Pagination)

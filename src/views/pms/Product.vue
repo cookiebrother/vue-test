@@ -1,3 +1,4 @@
+<script src="../../plugins/element.js"></script>
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -7,83 +8,84 @@
     </el-breadcrumb>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span style="position: relative;top: 7px">搜索</span>
-        <el-button-group class="login-btn" style="float: right; padding: 3px 0">
+        <span style="position: relative; top: 7px; font-size: 14px">搜索</span>
+        <el-button-group style="float: right; padding: 3px 0">
           <el-button
             type="primary"
-            size="mini"
             icon="el-icon-search"
+            size="mini"
             @click="btnSearch"
             >搜索</el-button
           >
           <el-button
             type="primary"
-            size="mini"
             icon="el-icon-refresh"
+            size="mini"
             @click="btnReset"
             >重置</el-button
           >
         </el-button-group>
       </div>
-      <el-form :inline="true">
+
+      <el-form :inline="true" size="mini">
         <el-row :gutter="20">
-          <el-col :span="colSize"
-            ><el-form-item label="商品名称">
-              <el-input v-model="inputName" placeholder="请输入商品名称" clearable></el-input> </el-form-item
-          ></el-col>
-          <el-col :span="colSize"
-            ><el-form-item label="商品货号">
-              <el-input v-model="inputNo" placeholder="请输入商品货号" clearable></el-input> </el-form-item
-          ></el-col>
-          <!--          商品分类-->
-          <el-col :span="colSize"
-            ><el-form-item label="商品货号">
+          <el-col :span="colSize">
+            <el-form-item label="商品名称">
+              <el-input clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="colSize">
+            <el-form-item label="商品货号">
+              <el-input clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="colSize">
+            <el-form-item label="商品分类">
               <el-cascader
                 v-model="value"
                 :options="options"
                 :props="{ expandTrigger: 'hover' }"
-                @change="handleChange"
-              ></el-cascader> </el-form-item
-          ></el-col>
-          <el-col :span="colSize"
-            ><el-form-item label="上架状态">
-              <el-select v-model="value" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select> </el-form-item
-          ></el-col>
-          <el-col :span="colSize"
-            ><el-form-item label="审核状态">
-              <el-select v-model="value" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select> </el-form-item
-          ></el-col>
-          <el-col :span="colSize"
-            ><el-form-item label="商品品牌">
-              <el-select v-model="value" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select> </el-form-item
-          ></el-col>
+              >
+              </el-cascader>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="colSize"><el-form-item label="上架状态">
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item></el-col>
+          <el-col :span="colSize"><el-form-item label="审核状态">
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item></el-col>
+          <el-col :span="colSize"><el-form-item label="商品品牌">
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item></el-col>
         </el-row>
       </el-form>
     </el-card>
+
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span style="position: relative;top: 7px">商品列表</span>
@@ -91,6 +93,7 @@
           <el-button
             type="primary"
             size="mini"
+            @click="btnAdd"
             icon="el-icon-circle-plus-outline"
             >添加</el-button
           >
@@ -99,341 +102,233 @@
           >
         </el-button-group>
       </div>
-      <el-table :data="tableData" border style="width: 100%">
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="date" label="日期" width="180">
+
+      <el-table size="mini" :data="productList" border style="width: 100%">
+        <el-table-column align="center" type="selection" width="55">
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="180">
+        <el-table-column align="center" prop="id" label="编号" width="60">
         </el-table-column>
-        <el-table-column prop="address" label="地址"> </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column align="center" label="图片" width="120">
           <template slot-scope="scope">
-            <el-button size="mini" @click="btnEdit(scope.$index, scope.row)"
-              >编辑</el-button
-            >
-            <el-button
-              size="mini"
-              type="danger"
-              @click="btnDelete(scope.$index, scope.row)"
-              >删除</el-button
-            >
+            <el-image style="height: 100px" :src="scope.row.pic"></el-image>
+          </template>
+        </el-table-column>
+
+        <el-table-column width="120" align="center" label="商品名称">
+          <template slot-scope="scope">
+            <p>{{ scope.row.name }}</p>
+            <p>品牌：{{ scope.row.brandName }}</p>
+          </template>
+        </el-table-column>
+
+        <el-table-column width="100" align="center" label="价格/货号">
+          <template slot-scope="scope">
+            <p>价格：￥{{ scope.row.price }}</p>
+            <p>货号：{{ scope.row.productSn }}</p>
+          </template>
+        </el-table-column>
+
+        <el-table-column align="center" label="标签">
+          <template slot-scope="scope">
+            <p>
+              上架：<el-switch
+                v-model="scope.row.publishStatus"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+              >
+              </el-switch>
+            </p>
+            <p>
+              新品：<el-switch
+                v-model="scope.row.newStatus"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+              >
+              </el-switch>
+            </p>
+            <p>
+              推荐：<el-switch
+                v-model="scope.row.recommandStatus"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+              >
+              </el-switch>
+            </p>
+          </template>
+        </el-table-column>
+
+        <el-table-column align="center" prop="sort" label="排序" width="50">
+        </el-table-column>
+
+        <el-table-column align="center" label="SKU库存">
+          <template>
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+          </template>
+        </el-table-column>
+
+        <el-table-column align="center" prop="sale" label="销量" width="80">
+        </el-table-column>
+
+        <el-table-column align="center" label="审核状态">
+          <template slot-scope="scope">
+            <p>{{ scope.row.verifyStatus | verifyStatusFilter }}</p>
+            <p><el-button type="text">审核详情</el-button></p>
+          </template>
+        </el-table-column>
+
+        <el-table-column width="150" align="center" label="操作">
+          <template slot-scope="scope">
+            <p>
+              <el-button size="mini">查看</el-button>
+              <el-button size="mini">编辑</el-button>
+            </p>
+            <p>
+              <el-button size="mini">日志</el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                @click="btnDelete(scope.$index, scope.row)"
+                >删除</el-button
+              >
+            </p>
           </template>
         </el-table-column>
       </el-table>
+      <!--分页-->
+      <el-pagination
+        style="margin-top: 20px"
+        background
+        @size-change="btnSearch"
+        @current-change="handleCurrentChange"
+        :current-page="page.pageNum"
+        :page-sizes="[5, 10, 15]"
+        :page-size="page.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="page.total"
+      >
+      </el-pagination>
     </el-card>
+    <!--弹出对话框-->
+    <el-dialog title="添加商品" :visible.sync="dialogFormVisible">
+      <el-form :model="productForm">
+        <el-form-item label="日期" label-width="80px">
+          <el-input v-model="productForm.date"></el-input>
+        </el-form-item>
+        <el-form-item label="名称" label-width="80px">
+          <el-input v-model="productForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="地址" label-width="80px">
+          <el-input v-model="productForm.address"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="btnSave">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { api_productList } from '@/api/product'
 export default {
-  name: 'Product',
+  name: 'ProductList',
+  created() {
+    this.handleProductList()
+  },
   data() {
     return {
+      page: {
+        pageNum: 1,
+        pageSize: 5,
+        totalPage: 3,
+        total: 11
+      },
       inputName: '',
       inputNo: '',
       colSize: 8,
+      productList: [],
       value: [],
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ],
-      options: [
-        {
-          value: 'zhinan',
-          label: '指南',
-          children: [
-            {
-              value: 'shejiyuanze',
-              label: '设计原则',
-              children: [
-                {
-                  value: 'yizhi',
-                  label: '一致'
-                },
-                {
-                  value: 'fankui',
-                  label: '反馈'
-                },
-                {
-                  value: 'xiaolv',
-                  label: '效率'
-                },
-                {
-                  value: 'kekong',
-                  label: '可控'
-                }
-              ]
-            },
-            {
-              value: 'daohang',
-              label: '导航',
-              children: [
-                {
-                  value: 'cexiangdaohang',
-                  label: '侧向导航'
-                },
-                {
-                  value: 'dingbudaohang',
-                  label: '顶部导航'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          value: 'zujian',
-          label: '组件',
-          children: [
-            {
-              value: 'basic',
-              label: 'Basic',
-              children: [
-                {
-                  value: 'layout',
-                  label: 'Layout 布局'
-                },
-                {
-                  value: 'color',
-                  label: 'Color 色彩'
-                },
-                {
-                  value: 'typography',
-                  label: 'Typography 字体'
-                },
-                {
-                  value: 'icon',
-                  label: 'Icon 图标'
-                },
-                {
-                  value: 'button',
-                  label: 'Button 按钮'
-                }
-              ]
-            },
-            {
-              value: 'form',
-              label: 'Form',
-              children: [
-                {
-                  value: 'radio',
-                  label: 'Radio 单选框'
-                },
-                {
-                  value: 'checkbox',
-                  label: 'Checkbox 多选框'
-                },
-                {
-                  value: 'input',
-                  label: 'Input 输入框'
-                },
-                {
-                  value: 'input-number',
-                  label: 'InputNumber 计数器'
-                },
-                {
-                  value: 'select',
-                  label: 'Select 选择器'
-                },
-                {
-                  value: 'cascader',
-                  label: 'Cascader 级联选择器'
-                },
-                {
-                  value: 'switch',
-                  label: 'Switch 开关'
-                },
-                {
-                  value: 'slider',
-                  label: 'Slider 滑块'
-                },
-                {
-                  value: 'time-picker',
-                  label: 'TimePicker 时间选择器'
-                },
-                {
-                  value: 'date-picker',
-                  label: 'DatePicker 日期选择器'
-                },
-                {
-                  value: 'datetime-picker',
-                  label: 'DateTimePicker 日期时间选择器'
-                },
-                {
-                  value: 'upload',
-                  label: 'Upload 上传'
-                },
-                {
-                  value: 'rate',
-                  label: 'Rate 评分'
-                },
-                {
-                  value: 'form',
-                  label: 'Form 表单'
-                }
-              ]
-            },
-            {
-              value: 'data',
-              label: 'Data',
-              children: [
-                {
-                  value: 'table',
-                  label: 'Table 表格'
-                },
-                {
-                  value: 'tag',
-                  label: 'Tag 标签'
-                },
-                {
-                  value: 'progress',
-                  label: 'Progress 进度条'
-                },
-                {
-                  value: 'tree',
-                  label: 'Tree 树形控件'
-                },
-                {
-                  value: 'pagination',
-                  label: 'Pagination 分页'
-                },
-                {
-                  value: 'badge',
-                  label: 'Badge 标记'
-                }
-              ]
-            },
-            {
-              value: 'notice',
-              label: 'Notice',
-              children: [
-                {
-                  value: 'alert',
-                  label: 'Alert 警告'
-                },
-                {
-                  value: 'loading',
-                  label: 'Loading 加载'
-                },
-                {
-                  value: 'message',
-                  label: 'Message 消息提示'
-                },
-                {
-                  value: 'message-box',
-                  label: 'MessageBox 弹框'
-                },
-                {
-                  value: 'notification',
-                  label: 'Notification 通知'
-                }
-              ]
-            },
-            {
-              value: 'navigation',
-              label: 'Navigation',
-              children: [
-                {
-                  value: 'menu',
-                  label: 'NavMenu 导航菜单'
-                },
-                {
-                  value: 'tabs',
-                  label: 'Tabs 标签页'
-                },
-                {
-                  value: 'breadcrumb',
-                  label: 'Breadcrumb 面包屑'
-                },
-                {
-                  value: 'dropdown',
-                  label: 'Dropdown 下拉菜单'
-                },
-                {
-                  value: 'steps',
-                  label: 'Steps 步骤条'
-                }
-              ]
-            },
-            {
-              value: 'others',
-              label: 'Others',
-              children: [
-                {
-                  value: 'dialog',
-                  label: 'Dialog 对话框'
-                },
-                {
-                  value: 'tooltip',
-                  label: 'Tooltip 文字提示'
-                },
-                {
-                  value: 'popover',
-                  label: 'Popover 弹出框'
-                },
-                {
-                  value: 'card',
-                  label: 'Card 卡片'
-                },
-                {
-                  value: 'carousel',
-                  label: 'Carousel 走马灯'
-                },
-                {
-                  value: 'collapse',
-                  label: 'Collapse 折叠面板'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          value: 'ziyuan',
-          label: '资源',
-          children: [
-            {
-              value: 'axure',
-              label: 'Axure Components'
-            },
-            {
-              value: 'sketch',
-              label: 'Sketch Templates'
-            },
-            {
-              value: 'jiaohu',
-              label: '组件交互文档'
-            }
-          ]
-        }
-      ]
+      dialogFormVisible: false,
+      editRowIndex: -1, // 让当前编辑的那一条记录index 默认为-1
+      productForm: {
+        date: '',
+        name: '',
+        address: ''
+      },
+      options: []
+    }
+  },
+  filters: {
+    verifyStatusFilter(value) {
+      let text = '审核通过'
+      if (value !== 1) {
+        text = '未审核'
+      }
+      return text
     }
   },
   methods: {
-    btnEdit(index, row) {
-      console.log(index, row)
+    async handleProductList() {
+      const { data: res } = await api_productList()
+      console.log(res)
+      this.productList = res.data.list
     },
+    btnSave() {
+      this.dialogFormVisible = false
+      /*
+      unshift()：头部插入
+      push()：底部插入
+      splice(从哪里开始, 删除多少个, 添加)中间插入
+       */
+      if (this.editRowIndex == -1) {
+        //添加
+        // this.tableData.push(this.productForm)
+      } else {
+        //修改
+        // this.tableData.splice(this.editRowIndex, 1, this.productForm)
+      }
+
+      //清空表单内容
+      this.productForm = { brand_right: 0 }
+      // this.productForm.date = ''
+      // this.productForm.name = ''
+      // this.productForm.address = ''
+    },
+    btnAdd() {
+      this.dialogFormVisible = true
+      this.editRowIndex = -1
+    },
+    btnEdit(index, row) {
+      console.log('进入了编辑')
+      console.log(index, row)
+      this.editRowIndex = index
+      // 点击编辑按钮的时候，将对话框显示
+      this.dialogFormVisible = true
+      // 将内容显示在表单上
+      this.productForm.date = row.date
+      this.productForm.name = row.name
+      this.productForm.address = row.address
+    },
+
     btnDelete(index, row) {
       console.log(index, row)
-      this.$confirm(`确认是否删除姓名为${row.name}的记录`, '删除', {
+      this.$confirm(`删除名称为：${row.name} 的数据`, '确认删除?', {
         confirmButtonText: '确定'
+        /*callback: () => {
+            //前端删除
+            let res = this.tableData.splice(index,1)
+            let msg = '删除成功'
+            if(!res) {
+                msg = '删除失败'
+            }
+            this.$message({
+                type: 'info',
+                message: msg
+            });
+        }*/
       }).then(() => {
+        //前端删除
         let res = this.tableData.splice(index, 1)
         let msg = '删除成功'
         if (!res) {
@@ -444,9 +339,7 @@ export default {
           message: msg
         })
       })
-    },
-    btnSearch() {},
-    btnReset() {}
+    }
   }
 }
 </script>

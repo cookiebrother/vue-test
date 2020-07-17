@@ -116,6 +116,7 @@ export default {
       console.log(index)
       console.log(indexPath)
       this.activeMenu = index
+      //session获取当前当前菜单路径
       window.sessionStorage.setItem('activeMenu', index)
     },
 
