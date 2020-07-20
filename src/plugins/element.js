@@ -84,3 +84,6 @@ Vue.use(Image)
 
 import { Pagination } from 'element-ui'
 Vue.use(Pagination)
+
+import { DatePicker } from 'element-ui'
+Vue.use(DatePicker)

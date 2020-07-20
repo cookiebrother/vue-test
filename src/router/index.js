@@ -37,6 +37,12 @@ const routes = [
         name: 'Product',
         // 懒加载，需要使用的时候才加载
         component: () => import('../views/pms/Product.vue')
+      },
+      {
+        path: '/oms/order',
+        name: 'Order',
+        // 懒加载，需要使用的时候才加载
+        component: () => import('../views/oms/order.vue')
       }
     ]
   }
